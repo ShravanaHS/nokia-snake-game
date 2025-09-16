@@ -1,0 +1,187 @@
+/* Body background texture with subtle noise */
+body {
+    margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+  color: #333;
+  line-height: 1.6;
+  font-weight: 300;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Hero section styling */
+.hero-section {
+  position: relative;
+  background-color: #28a745;
+  color: white;
+  text-align: center;
+  padding: 2rem 1rem 4rem 1rem;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#dots-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 20px;
+  background: transparent;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+#pixel-snake-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 24px;
+  background-color: transparent;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+#pixel-snake {
+  width: 100%;
+  height: 24px;
+  display: block;
+  image-rendering: pixelated; /* crisp pixels */
+}
+
+
+.hero-section h1 {
+  font-weight: 600;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section p {
+  font-size: 1.3rem;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero button */
+.btn {
+  display: inline-block;
+  background-color: #1e7e34;
+  color: white;
+  text-decoration: none;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.btn:hover {
+  background-color: #155d27;
+}
+
+/* Hero wave SVG animation */
+.hero-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 400%; /* Enough to repeat the wave smoothing animation */
+  min-width: 100vw;
+  height: 150px;
+  fill: none;
+  stroke: white;
+  stroke-width: 8;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+  z-index: 0;
+  animation: waveInfinite 20s linear infinite;
+  transform: translateX(-33.33%);
+  /* The initial translateX ensures the repeat starts off-screen and enters viewport */
+}
+
+@keyframes waveInfinite {
+  0% {
+    transform: translateX(-33.33%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Section container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+/* Image section */
+.image-section {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.image-section img {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Features section */
+#features {
+  padding: 3rem 0;
+}
+
+#features h2 {
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.features-list {
+  list-style: none;
+  max-width: 550px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+
+.features-list li {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Download section */
+.download-section {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.download-section h2 {
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.download-section p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.download-section a.btn {
+  font-size: 1.2rem;
+}
+
+/* Footer */
+.footer {
+  background-color: #222;
+  color: #eee;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-weight: 300;
+  font-size: 1rem;
+}

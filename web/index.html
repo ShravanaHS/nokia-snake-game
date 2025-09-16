@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arduino Nokia Snake Game</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+
+  <!-- AOS CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+
+  <header class="hero-section" data-aos="fade-down">
+        <div id="pixel-snake-container">
+  <canvas id="pixel-snake"></canvas>
+</div>
+    <div class="container">
+      <h1>Arduino Nokia Snake Game</h1>
+      <p>A fun remake of the classic Nokia Snake using Arduino, OLED, and joystick.</p>
+      <a href="#download" class="btn">Download Code</a>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 700 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+        M 0 30
+        Q 25 0 50 30
+        T 100 30
+        T 150 30
+        T 200 30
+        T 250 30
+        T 300 30
+        T 350 30
+        T 400 30
+        T 450 30
+        Q 475 60 500 30
+        T 550 30
+        T 600 30
+        T 650 30
+        T 700 30
+        L 700 60
+        L 0 60
+        Z
+      " />
+    </svg>
+  </header>
+
+  <section class="image-section" data-aos="fade-up">
+    <div class="container">
+      <img src="images/retro.png" alt="Snake Game Screenshot" />
+    </div>
+  </section>
+
+  <section id="features" data-aos="fade-up" data-aos-delay="200">
+    <div class="container">
+      <h2>Features</h2>
+      <ul class="features-list">
+        <li data-aos="fade-right" data-aos-delay="300">Classic Nokia style gameplay</li>
+        <li data-aos="fade-right" data-aos-delay="400">Joystick control and pause functionality</li>
+        <li data-aos="fade-right" data-aos-delay="500">OLED display support with sound feedback</li>
+        <li data-aos="fade-right" data-aos-delay="600">High score saved in EEPROM</li>
+        <li data-aos="fade-right" data-aos-delay="700">Adjustable speed and simple on-screen menu</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="download" class="download-section" data-aos="fade-up" data-aos-delay="800">
+    <div class="container">
+      <h2>Download & Code</h2>
+      <p>
+        Full Arduino sketch and wiring diagrams available on
+        <a href="https://github.com/ShravanaHS/nokia-snake-game" target="_blank" rel="noopener">GitHub</a>.
+      </p>
+      <a href="https://github.com/ShravanaHS/arduino-nokia-snake/archive/refs/heads/main.zip" class="btn">Download ZIP</a>
+    </div>
+  </section>
+
+  <footer class="footer" data-aos="fade-up" data-aos-delay="900">
+    <div class="container">
+      <p>shs creations — 2025</p>
+    </div>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+
+<script>
+  const canvas = document.getElementById('pixel-snake');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  const blockSize = 20; // size of each square block
+  const speed = 500;    // ms per step (0.5 sec)
+  let numBlocks;
+
+  let headPosition = 0;
+
+  function resize() {
+    width = window.innerWidth;
+    height = 24;
+
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    numBlocks = Math.ceil(width / blockSize) + 1;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw pixels: head bright white glow, trailing pixels dimmer white glow
+    for (let i = 0; i < numBlocks; i++) {
+      const x = ((headPosition + i) % numBlocks) * blockSize;
+
+      // Glow intensity decreases as distance from head increases
+      let glowIntensity = Math.max(0, 1 - i / 10); // fade over 10 trailing pixels
+
+      // Head brightest
+      if (i === 0) {
+        glowIntensity = 1;
+      }
+
+      ctx.shadowColor = `rgba(255, 255, 255, ${glowIntensity})`;
+      ctx.shadowBlur = 20 * glowIntensity;
+
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + glowIntensity * 0.7})`;
+      ctx.fillRect(x + 1, 5, blockSize - 2, blockSize - 2);
+
+      ctx.shadowBlur = 0; // reset shadow for next pixel
+    }
+  }
+
+  let lastMove = 0;
+  function animate(timestamp = 0) {
+    if (timestamp - lastMove > speed) {
+      headPosition = (headPosition + 1) % numBlocks; // moves left to right
+      lastMove = timestamp;
+    }
+    draw();
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
