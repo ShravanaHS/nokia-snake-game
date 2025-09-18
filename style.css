@@ -1,187 +1,223 @@
-/* Body background texture with subtle noise */
+/* Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-    margin: 0;
+  margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: #f5f7fa url('https://www.transparenttextures.com/patterns/asfalt-light.png');
-  color: #333;
-  line-height: 1.6;
+  background: #f0f3f7 url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+  color: #222;
+  line-height: 1.5;
   font-weight: 300;
-  position: relative;
   overflow-x: hidden;
 }
 
-/* Hero section styling */
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+/* Hero Section */
 .hero-section {
   position: relative;
-  background-color: #28a745;
-  color: white;
+  background-color: #2a8a2a; /* Friendly rich green */
+  color: #f7f9fa; /* Light almost white */
   text-align: center;
-  padding: 2rem 1rem 4rem 1rem;
+  padding: 3rem 1rem 5rem 1rem;
   overflow: hidden;
+  width: 100vw;
+  left: 50%;
+  margin-left: -50vw;
   z-index: 1;
 }
 
-#dots-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 20px;
-  background: transparent;
-  overflow: visible;
-  pointer-events: none;
-  z-index: 9999;
-}
-
+/* Pixel snake banner */
 #pixel-snake-container {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100vw;
   height: 24px;
-  background-color: transparent;
   pointer-events: none;
   z-index: 10000;
+  background: transparent;
 }
 
 #pixel-snake {
   width: 100%;
   height: 24px;
   display: block;
-  image-rendering: pixelated; /* crisp pixels */
+  image-rendering: pixelated;
 }
 
-
+/* Hero Text */
 .hero-section h1 {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 1rem;
-  position: relative;
-  z-index: 2;
+  user-select: none;
 }
 
 .hero-section p {
-  font-size: 1.3rem;
-  margin-bottom: 0;
-  position: relative;
-  z-index: 2;
+  font-size: 1.35rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  user-select: none;
 }
 
-/* Hero button */
-.btn {
-  display: inline-block;
-  background-color: #1e7e34;
-  color: white;
-  text-decoration: none;
-  padding: 0.8rem 2rem;
-  font-weight: 600;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-  position: relative;
-  z-index: 2;
-}
-
-.btn:hover {
-  background-color: #155d27;
-}
-
-/* Hero wave SVG animation */
+/* Hero Wave Animation */
 .hero-wave {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 400%; /* Enough to repeat the wave smoothing animation */
+  width: 400%;
   min-width: 100vw;
-  height: 150px;
+  height: 140px;
   fill: none;
-  stroke: white;
-  stroke-width: 8;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+  stroke: #f7f9fa;
+  stroke-width: 7;
+  filter: drop-shadow(0 0 12px rgba(247, 249, 250, 0.8));
   z-index: 0;
-  animation: waveInfinite 20s linear infinite;
+  animation: waveInfinite 21s linear infinite;
   transform: translateX(-33.33%);
-  /* The initial translateX ensures the repeat starts off-screen and enters viewport */
+  user-select: none;
+  pointer-events: none;
 }
 
 @keyframes waveInfinite {
-  0% {
-    transform: translateX(-33.33%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+  0% { transform: translateX(-33.33%); }
+  100% { transform: translateX(0%); }
 }
 
-/* Section container */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-}
-
-/* Image section */
-.image-section {
-  padding: 2rem 0;
+/* Section Headings */
+section h2 {
+  font-weight: 700;
+  font-size: 2.25rem;
+  color: #1c4d1c;
   text-align: center;
+  margin-bottom: 1rem;
+  user-select: none;
 }
 
-.image-section img {
-  max-width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Features section */
-#features {
-  padding: 3rem 0;
-}
-
-#features h2 {
-  font-weight: 600;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
+/* Features List */
 .features-list {
   list-style: none;
-  max-width: 550px;
+  max-width: 660px;
   margin: 0 auto;
   font-size: 1.1rem;
+  color: #2e3a34;
+  padding-left: 0;
 }
 
 .features-list li {
-  padding: 0.7rem 0;
-  border-bottom: 1px solid #ccc;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #d5e5d5;
+  font-weight: 400;
 }
 
-/* Download section */
-.download-section {
-  padding: 3rem 0;
-  text-align: center;
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem 0;
+  font-size: 1rem;
+  color: #2e3e2e;
 }
 
-.download-section h2 {
+table th,
+table td {
+  border: 1px solid #aacaa8;
+  padding: 0.65rem 1rem;
+  text-align: left;
+}
+
+table th {
+  background-color: #b7ddb7;
   font-weight: 600;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  user-select: none;
 }
 
+/* Images */
+.image-section,
+#schematic {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.image-section img,
+#schematic img {
+  max-width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 5px 22px rgba(34, 60, 80, 0.1);
+  user-select: none;
+}
+
+/* Download Buttons */
+.btn {
+  display: inline-block;
+  background-color: #1e7e34;
+  color: #f1f5f2 !important;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 0.85rem 2.4rem;
+  border-radius: 8px;
+  text-decoration: none;
+  margin: 0.5rem 0.7rem 0.5rem 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #145214;
+  box-shadow: 0 0 10px #2cd32c44;
+  outline: none;
+  text-decoration: none;
+}
+
+/* Download section text */
 .download-section p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-.download-section a.btn {
   font-size: 1.2rem;
+  max-width: 720px;
+  margin: 0 auto 1.9rem auto;
+  color: #2d472d;
+  user-select: none;
 }
 
 /* Footer */
 .footer {
-  background-color: #222;
-  color: #eee;
+  background-color: #1a3a11;
+  color: #dbf9db;
   text-align: center;
-  padding: 2rem 1rem;
-  font-weight: 300;
+  padding: 24px 14px;
+  font-weight: 400;
   font-size: 1rem;
+  user-select: none;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .hero-section h1 {
+    font-size: 2.2rem;
+  }
+  section h2 {
+    font-size: 1.7rem;
+  }
+  .btn {
+    font-size: 1rem;
+    padding: 0.65rem 1.8rem;
+  }
 }
