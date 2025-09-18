@@ -4,82 +4,355 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Arduino Nokia Snake Game</title>
-
+  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
-
+  
   <!-- AOS CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+  
+  <style>
+    /* Reset and base */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+      color: #222;
+      line-height: 1.6;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css" />
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      background-color: #28a745; /* Retro green */
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem 5rem 1rem;
+      overflow: hidden;
+      width: 100vw;
+      left: 50%;
+      margin-left: -50vw;
+      z-index: 1;
+    }
+    
+    /* Pixel snake container and canvas */
+    #pixel-snake-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 24px;
+      pointer-events: none;
+      z-index: 10000;
+      background: transparent;
+    }
+    #pixel-snake {
+      width: 100%;
+      height: 24px;
+      display: block;
+      image-rendering: pixelated;
+    }
+    
+    /* Hero texts */
+    .hero-section h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-section p {
+      font-size: 1.35rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Hero Wave */
+    .hero-wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 400%;
+      min-width: 100vw;
+      height: 150px;
+      fill: none;
+      stroke: white;
+      stroke-width: 8;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.7));
+      z-index: 0;
+      animation: waveInfinite 20s linear infinite;
+      transform: translateX(-33.33%);
+      user-select: none;
+      pointer-events: none;
+    }
+    @keyframes waveInfinite {
+      0% { transform: translateX(-33.33%); }
+      100% { transform: translateX(0%); }
+    }
+
+    /* Container for page sections */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+    }
+
+    /* Common section styling */
+    section {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    /* Headings */
+    section h2 {
+      font-weight: 700;
+      font-size: 2.1rem;
+      margin-bottom: 1rem;
+      color: #145214; /* A darker/stronger green */
+      text-align: center;
+    }
+    
+    /* Features List */
+    .features-list {
+      list-style: none;
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: #1a1a1a;
+      padding-left: 0;
+    }
+    .features-list li {
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 2rem 0;
+      font-size: 1rem;
+    }
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+    }
+    table th {
+      background-color: #d0f0d0;
+      color: #0b470b;
+    }
+    
+    /* Image sections */
+    .image-section {
+      text-align: center;
+    }
+    .image-section img, #schematic img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      background-color: #186414;
+      color: white !important;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.8rem 2.2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      margin: 0.6rem 0.6rem 0.6rem 0;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      cursor: pointer;
+    }
+    .btn:hover, .btn:focus {
+      background-color: #0f4d0f;
+      outline: none;
+      text-decoration: none;
+    }
+
+    /* Download section special spacing */
+    .download-section p {
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: 0 auto 1.8rem auto;
+      color: #333;
+    }
+
+    /* Footer */
+    footer.footer {
+      background-color: #145214;
+      color: #ddffdd;
+      text-align: center;
+      padding: 20px 10px;
+      font-weight: 400;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero-section h1 {
+        font-size: 2.2rem;
+      }
+      section h2 {
+        font-size: 1.6rem;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 0.65rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-
   <header class="hero-section" data-aos="fade-down">
-        <div id="pixel-snake-container">
-  <canvas id="pixel-snake"></canvas>
-</div>
-    <div class="container">
-      <h1>Arduino Nokia Snake Game</h1>
-      <p>A fun remake of the classic Nokia Snake using Arduino, OLED, and joystick.</p>
-      <a href="#download" class="btn">Download Code</a>
+    <div id="pixel-snake-container">
+      <canvas id="pixel-snake"></canvas>
     </div>
-    <svg class="hero-wave" viewBox="0 0 700 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="container" role="banner">
+      <h1>Arduino Nokia Snake Game</h1>
+      <p>
+        Retro Snake remade on Arduino & OLED! Eat, grow, and dodge your tail, using a joystick for classic gameplay and real hardware fun.
+      </p>
+      <a href="#download" class="btn" role="button">Download Code</a>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 700 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <path d="
-        M 0 30
-        Q 25 0 50 30
-        T 100 30
-        T 150 30
-        T 200 30
-        T 250 30
-        T 300 30
-        T 350 30
-        T 400 30
-        T 450 30
-        Q 475 60 500 30
-        T 550 30
-        T 600 30
-        T 650 30
-        T 700 30
-        L 700 60
-        L 0 60
-        Z
-      " />
+        M 0 30 Q 25 0 50 30 T 100 30 T 150 30 T 200 30
+        T 250 30 T 300 30 T 350 30 T 400 30 T 450 30
+        Q 475 60 500 30 T 550 30 T 600 30 T 650 30 T 700 30
+        L 700 60 L 0 60 Z"/>
     </svg>
   </header>
 
-  <section class="image-section" data-aos="fade-up">
-    <div class="container">
-      <img src="retro.png" alt="Snake Game Screenshot" />
-    </div>
-  </section>
+  <main>
+    <section id="intro" data-aos="fade-up">
+      <div class="container">
+        <h2>Introduction</h2>
+        <p>
+          The retro Snake game, revived for Arduino! Play using pixel graphics on an OLED, dodge your own tail, eat food, and watch your score climb, with authentic joystick controls for a true arcade experience.
+        </p>
+      </div>
+    </section>
 
-  <section id="features" data-aos="fade-up" data-aos-delay="200">
-    <div class="container">
-      <h2>Features</h2>
-      <ul class="features-list">
-        <li data-aos="fade-right" data-aos-delay="300">Classic Nokia style gameplay</li>
-        <li data-aos="fade-right" data-aos-delay="400">Joystick control and pause functionality</li>
-        <li data-aos="fade-right" data-aos-delay="500">OLED display support with sound feedback</li>
-        <li data-aos="fade-right" data-aos-delay="600">High score saved in EEPROM</li>
-        <li data-aos="fade-right" data-aos-delay="700">Adjustable speed and simple on-screen menu</li>
-      </ul>
-    </div>
-  </section>
+    <section id="features" data-aos="fade-up" data-aos-delay="200">
+      <div class="container">
+        <h2>Key Features</h2>
+        <ul class="features-list">
+          <li data-aos="fade-right" data-aos-delay="300">Retro pixel graphics on OLED display</li>
+          <li data-aos="fade-right" data-aos-delay="400">Joystick-based movement and control</li>
+          <li data-aos="fade-right" data-aos-delay="500">Score and high score tracking</li>
+          <li data-aos="fade-right" data-aos-delay="600">Sound feedback with buzzer</li>
+          <li data-aos="fade-right" data-aos-delay="700">Clean, modular code and open-source files</li>
+        </ul>
+      </div>
+    </section>
 
-  <section id="download" class="download-section" data-aos="fade-up" data-aos-delay="800">
-    <div class="container">
-      <h2>Download & Code</h2>
-      <p>
-        Full Arduino sketch and wiring diagrams available on
-        <a href="https://github.com/ShravanaHS/nokia-snake-game" target="_blank" rel="noopener">GitHub</a>.
-      </p>
-      <a href="https://github.com/ShravanaHS/arduino-nokia-snake/archive/refs/heads/main.zip" class="btn">Download ZIP</a>
-    </div>
-  </section>
+    <section id="gameplay" data-aos="fade-up" data-aos-delay="300">
+      <div class="container">
+        <h2>How It Works</h2>
+        <p>
+          Move the snake using the joystick module—each time you eat "food" the snake grows longer, but beware of crashing into your own tail or the walls! The OLED screen updates the snake's position, score, and high score in real time; a buzzer gives sound on food consumption and game over moments.
+        </p>
+      </div>
+    </section>
+
+    <section id="components" data-aos="fade-up" data-aos-delay="400">
+      <div class="container">
+        <h2>Components Required</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Model/Size</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Arduino (Uno/Nano)</td>
+              <td>Uno, Nano</td>
+              <td>Main controller board</td>
+            </tr>
+            <tr>
+              <td>OLED Display</td>
+              <td>SSD1306, 0.96" or 1.3"</td>
+              <td>Display game graphics</td>
+            </tr>
+            <tr>
+              <td>Joystick Module</td>
+              <td>Analog, KY-023</td>
+              <td>Directional player control</td>
+            </tr>
+            <tr>
+              <td>Buzzer</td>
+              <td>Piezo, 5V</td>
+              <td>Sound for game events</td>
+            </tr>
+            <tr>
+              <td>Breadboard, Jumper Wires</td>
+              <td>-</td>
+              <td>Convenient prototyping</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pins" data-aos="fade-up" data-aos-delay="500">
+      <div class="container">
+        <h2>Pin Configuration</h2>
+        <table>
+          <thead>
+            <tr><th>Module</th><th>Pin</th><th>Arduino</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OLED I2C</td><td>VCC / GND / SDA / SCL</td><td>5V / GND / A4 / A5 (Uno/Nano)</td></tr>
+            <tr><td>Joystick</td><td>VRX / VRY / SW / VCC / GND</td><td>A0 / A1 / D2 / 5V / GND</td></tr>
+            <tr><td>Buzzer +</td><td>Connects to D9 (PWM)</td><td></td></tr>
+            <tr><td>Buzzer -</td><td>Connects to GND</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="schematic" data-aos="fade-up" data-aos-delay="600">
+      <div class="container">
+        <h2>Wiring Diagram</h2>
+        <p>See schematic below for full prototyping setup.</p>
+        <img src="images/schematic.png" alt="Wiring Schematic" />
+      </div>
+    </section>
+
+    <section class="image-section" data-aos="fade-up">
+      <div class="container">
+        <h2>Game Screenshot</h2>
+        <img src="images/retro.png" alt="Snake Game Screenshot" />
+      </div>
+    </section>
+
+    <section id="download" class="download-section" data-aos="fade-up" data-aos-delay="700">
+      <div class="container">
+        <h2>Download & Source Code</h2>
+        <p>
+          View the latest Arduino sketch, wiring diagrams, and detailed documentation on GitHub.
+        </p>
+        <a href="https://github.com/ShravanaHS/nokia-snake-game/blob/main/README.md" target="_blank" rel="noopener" class="btn">View Source Code on GitHub</a>
+        <a href="https://github.com/ShravanaHS/arduino-nokia-snake/archive/refs/heads/main.zip" class="btn">Download ZIP</a>
+      </div>
+    </section>
+  </main>
 
   <footer class="footer" data-aos="fade-up" data-aos-delay="900">
     <div class="container">
@@ -87,82 +360,61 @@
     </div>
   </footer>
 
-  <!-- AOS JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
-    AOS.init({
-      duration: 1000,
-      once: true
-    });
+    AOS.init({ duration: 1000, once: true });
   </script>
 
-<script>
-  const canvas = document.getElementById('pixel-snake');
-  const ctx = canvas.getContext('2d');
-  let width, height;
+  <script>
+    // Pixel Snake Animation at top
+    const canvas = document.getElementById('pixel-snake');
+    if(canvas){
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      const blockSize = 20;
+      const speed = 500;
+      let numBlocks;
+      let headPosition = 0;
 
-  const blockSize = 20; // size of each square block
-  const speed = 500;    // ms per step (0.5 sec)
-  let numBlocks;
+      function resize() {
+        width = window.innerWidth;
+        height = 24;
+        canvas.width = width * window.devicePixelRatio;
+        canvas.height = height * window.devicePixelRatio;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        numBlocks = Math.ceil(width / blockSize) + 1;
+      }
+      window.addEventListener('resize', resize);
+      resize();
 
-  let headPosition = 0;
-
-  function resize() {
-    width = window.innerWidth;
-    height = 24;
-
-    canvas.width = width * window.devicePixelRatio;
-    canvas.height = height * window.devicePixelRatio;
-
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
-    numBlocks = Math.ceil(width / blockSize) + 1;
-  }
-
-  window.addEventListener('resize', resize);
-  resize();
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-
-    // Draw pixels: head bright white glow, trailing pixels dimmer white glow
-    for (let i = 0; i < numBlocks; i++) {
-      const x = ((headPosition + i) % numBlocks) * blockSize;
-
-      // Glow intensity decreases as distance from head increases
-      let glowIntensity = Math.max(0, 1 - i / 10); // fade over 10 trailing pixels
-
-      // Head brightest
-      if (i === 0) {
-        glowIntensity = 1;
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < numBlocks; i++) {
+          const x = ((headPosition + i) % numBlocks) * blockSize;
+          let glowIntensity = Math.max(0, 1 - i / 10);
+          if (i === 0) glowIntensity = 1;
+          ctx.shadowColor = `rgba(255,255,255,${glowIntensity})`;
+          ctx.shadowBlur = 20 * glowIntensity;
+          ctx.fillStyle = `rgba(255,255,255,${0.3 + glowIntensity * 0.7})`;
+          ctx.fillRect(x + 1, 5, blockSize - 2, blockSize - 2);
+          ctx.shadowBlur = 0;
+        }
       }
 
-      ctx.shadowColor = `rgba(255, 255, 255, ${glowIntensity})`;
-      ctx.shadowBlur = 20 * glowIntensity;
-
-      ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + glowIntensity * 0.7})`;
-      ctx.fillRect(x + 1, 5, blockSize - 2, blockSize - 2);
-
-      ctx.shadowBlur = 0; // reset shadow for next pixel
+      let lastMove = 0;
+      function animate(timestamp = 0) {
+        if (timestamp - lastMove > speed) {
+          headPosition = (headPosition + 1) % numBlocks;
+          lastMove = timestamp;
+        }
+        draw();
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
     }
-  }
-
-  let lastMove = 0;
-  function animate(timestamp = 0) {
-    if (timestamp - lastMove > speed) {
-      headPosition = (headPosition + 1) % numBlocks; // moves left to right
-      lastMove = timestamp;
-    }
-    draw();
-    requestAnimationFrame(animate);
-  }
-
-  requestAnimationFrame(animate);
-</script>
-
+  </script>
 </body>
 </html>
