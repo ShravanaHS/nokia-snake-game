@@ -8,7 +8,7 @@ This is a fun remake of the classic Nokia Snake game using Arduino Uno, an OLED 
 
 
 # Source Code
-
+### COPY AND PASTE IT IN ARDUINO IDE
 ```ARDUINO CODE
 #include <U8g2lib.h>
 #include <EEPROM.h>
