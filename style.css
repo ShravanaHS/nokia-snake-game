@@ -25,8 +25,10 @@ body {
 /* Hero Section */
 .hero-section {
   position: relative;
-  background-color: #2a8a2a; /* Friendly rich green */
-  color: #f7f9fa; /* Light almost white */
+  background-color: #2a8a2a;
+  /* Friendly rich green */
+  color: #f7f9fa;
+  /* Light almost white */
   text-align: center;
   padding: 3rem 1rem 5rem 1rem;
   overflow: hidden;
@@ -39,7 +41,8 @@ body {
 /* Pixel snake banner */
 #pixel-snake-container {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 24px;
   pointer-events: none;
@@ -95,8 +98,13 @@ body {
 }
 
 @keyframes waveInfinite {
-  0% { transform: translateX(-33.33%); }
-  100% { transform: translateX(0%); }
+  0% {
+    transform: translateX(-33.33%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 /* Section Headings */
@@ -194,14 +202,43 @@ table th {
   user-select: none;
 }
 
+.download-section h2 a {
+  color: #186414;
+  text-decoration: none;
+  padding: 0.2em 0.5em;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.download-link {
+  color: #186414;
+  text-decoration: none;
+  padding: 0.3em 0.6em;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.download-link:hover,
+.download-link:focus {
+  background-color: #c6efce;
+  /* light green background */
+  color: #145214;
+  outline: none;
+  text-decoration: none;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 640px) {
   .hero-section h1 {
     font-size: 2.2rem;
   }
+
   section h2 {
     font-size: 1.7rem;
   }
+
   .btn {
     font-size: 1rem;
     padding: 0.65rem 1.8rem;
