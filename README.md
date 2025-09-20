@@ -3,7 +3,9 @@ This is a fun remake of the classic Nokia Snake game using Arduino Uno, an OLED 
 
 
 # [CLICK HERE](https://shravanahs.github.io/nokia-snake-game/)
-## [Demo vedio](https://youtu.be/0CRtBqZujK0?si=hq1VcGQwkqija8D)
+## 📽️ Demo Video
+[![Watch the video](https://img.youtube.com/vi/0CRtBqZujK0/0.jpg)](https://youtu.be/0CRtBqZujK0?si=hq1VcGQwkqija8D)
+
 
 
 
